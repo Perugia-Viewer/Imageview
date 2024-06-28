@@ -11,7 +11,7 @@ import SettingsProvider from './providers/SettingsProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} cssVarsRoot="body">
       <ColorModeProvider>
         <SettingsProvider>
           <LibraryProvider>

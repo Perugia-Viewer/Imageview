@@ -3,6 +3,8 @@ import { window as apiWindow, event } from '@tauri-apps/api';
 import debounce from 'lodash/debounce';
 import generalEventBus, { GeneralEventMessage } from './events/general';
 
+const IN_TAURI = !!window.__TAURI__;
+
 /** Sends a message to print into Tauri's console */
 export const tauriPrint = (message: string) =>
   invoke('console_print', { message });
@@ -14,8 +16,15 @@ export const tauriPrintDebounced = debounce(tauriPrint, 500, {
 
 export const fullscreen = {
   set: (fullscreen: boolean): Promise<void> =>
-    apiWindow.appWindow.setFullscreen(fullscreen),
-  isOn: () => apiWindow.appWindow.isFullscreen(),
+    IN_TAURI
+      ? apiWindow.appWindow.setFullscreen(fullscreen)
+      : fullscreen
+      ? document.documentElement.requestFullscreen()
+      : document.exitFullscreen(),
+  isOn: () =>
+    IN_TAURI
+      ? apiWindow.appWindow.isFullscreen()
+      : !!document.fullscreenElement,
 };
 
 type Payload = {

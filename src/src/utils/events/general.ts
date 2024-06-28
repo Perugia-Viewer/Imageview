@@ -9,6 +9,8 @@ export enum GeneralEventMessage {
   settings = 'settings',
   /** idb has been initialized */
   idbReady = 'idbReady',
+  /** Toggle fullscreen */
+  fullscreen = 'fullscreen',
 }
 
 export type GeneralEvent = {
